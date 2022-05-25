@@ -60,7 +60,7 @@ class Trainer(BaseTrainer):
 
             self.optimizer.zero_grad()
             output = self.model(data)
-            loss = self.criterion(output, target)
+            loss = self.criterion(output, target, self.device)
             loss.backward()
             self.optimizer.step()
 
@@ -105,7 +105,7 @@ class Trainer(BaseTrainer):
                 data, target = data.to(self.device), target.to(self.device)
 
                 output = self.model(data)
-                loss = self.criterion(output, target)
+                loss = self.criterion(output, target, self.device)
 
                 self.writer.set_step(
                     (epoch - 1) * len(self.valid_data_loader) + batch_idx, "valid"

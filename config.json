@@ -10,7 +10,7 @@
     "data_loader": {
         "type": "FramesDataLoader",
         "args": {
-            "images_folder": "data/train",
+            "images_folder": "data/train_rs2",
             "batch_size": 128,
             "csv_path": "data/df_train_framefilter.csv",
             "shuffle": true,
@@ -21,15 +21,21 @@
     "optimizer": {
         "type": "Adam",
         "args": {
-            "lr": 0.001,
+            "lr": 0.01,
             "weight_decay": 0,
             "amsgrad": true
         }
     },
     "loss": "cross_entropy_loss",
     "metrics": [
-        "accuracy",
-        "top_k_acc"
+        "micro_accuracy",
+        "micro_recall",
+        "micro_precision",
+        "micro_f1",
+        "macro_accuracy",
+        "macro_recall",
+        "macro_precision",
+        "macro_f1"
     ],
     "lr_scheduler": {
         "type": "StepLR",
@@ -45,8 +51,17 @@
         "verbosity": 2,
         "monitor": "min val_loss",
         "early_stop": 10,
-        "tensorboard": true
+        "tensorboard": false
     },
+    "class_weights_balanced":[
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+    ],
     "class_weights": [
         0.253,
         0.558,
@@ -55,5 +70,6 @@
         14.400,
         23.426,
         33.395
-    ]
+    ],
+    "n_classes": 7
 }
