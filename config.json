@@ -10,7 +10,7 @@
     "data_loader": {
         "type": "FramesDataLoader",
         "args": {
-            "images_folder": "data/raw/train",
+            "images_folder": "data/train",
             "batch_size": 128,
             "csv_path": "data/df_train_framefilter.csv",
             "shuffle": true,
@@ -46,5 +46,14 @@
         "monitor": "min val_loss",
         "early_stop": 10,
         "tensorboard": true
-    }
+    },
+    "class_weights": [
+        0.253,
+        0.558,
+        0.958,
+        13.768,
+        14.400,
+        23.426,
+        33.395
+    ]
 }

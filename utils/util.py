@@ -4,6 +4,7 @@ import pandas as pd
 from pathlib import Path
 from itertools import repeat
 from collections import OrderedDict
+import numpy as np
 
 
 def ensure_dir(dirname):
@@ -25,7 +26,7 @@ def write_json(content, fname):
 
 
 def inf_loop(data_loader):
-    """ wrapper function for endless data loader. """
+    """wrapper function for endless data loader."""
     for loader in repeat(data_loader):
         yield from loader
 
@@ -43,8 +44,9 @@ def prepare_device(n_gpu_use):
         n_gpu_use = 0
     if n_gpu_use > n_gpu:
         print(
-            f"Warning: The number of GPU's configured to use is {n_gpu_use}, but only {n_gpu} are "
-            "available on this machine."
+            "Warning: The number of GPU's configured to use is"
+            f" {n_gpu_use}, but only {n_gpu} are available on this"
+            " machine."
         )
         n_gpu_use = n_gpu
     device = torch.device("cuda:0" if n_gpu_use > 0 else "cpu")
@@ -52,10 +54,23 @@ def prepare_device(n_gpu_use):
     return device, list_ids
 
 
+def set_seed(seed=0):
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+    torch.manual_seed(seed)
+
+    torch.backends.cudnn.determinstic = True
+    torch.backends.cudnn.benchmark = False
+    np.random.seed(seed)
+
+
 class MetricTracker:
     def __init__(self, *keys, writer=None):
         self.writer = writer
-        self._data = pd.DataFrame(index=keys, columns=["total", "counts", "average"])
+        self._data = pd.DataFrame(
+            index=keys, columns=["total", "counts", "average"]
+        )
         self.reset()
 
     def reset(self):
@@ -67,7 +82,9 @@ class MetricTracker:
             self.writer.add_scalar(key, value)
         self._data.total[key] += value * n
         self._data.counts[key] += n
-        self._data.average[key] = self._data.total[key] / self._data.counts[key]
+        self._data.average[key] = (
+            self._data.total[key] / self._data.counts[key]
+        )
 
     def avg(self, key):
         return self._data.average[key]

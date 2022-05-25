@@ -5,19 +5,11 @@ import os
 
 
 class FramesDataset(torch.utils.data.Dataset):
-    def __init__(self, csv_path, images_folder, transform=None):
+    def __init__(self, csv_path, images_folder, class2index, transform=None):
         self.df = pd.read_csv(csv_path)
         self.images_folder = images_folder
         self.transform = transform
-        self.class2index = {
-            "side_view": 0,
-            "closeup": 1,
-            "non_match": 2,
-            "front_view": 3,
-            "side_gate_view": 4,
-            "aerial_view": 5,
-            "wide_view": 6,
-        }
+        self.class2index = class2index
 
     def __len__(self):
         return len(self.df)

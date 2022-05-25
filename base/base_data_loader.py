@@ -2,6 +2,7 @@ import numpy as np
 from torch.utils.data import DataLoader
 from torch.utils.data.dataloader import default_collate
 from torch.utils.data.sampler import SubsetRandomSampler
+from utils.util import set_seed
 
 
 class BaseDataLoader(DataLoader):
@@ -24,7 +25,10 @@ class BaseDataLoader(DataLoader):
         self.batch_idx = 0
         self.n_samples = len(dataset)
 
-        self.sampler, self.valid_sampler = self._split_sampler(self.validation_split)
+        set_seed(0)
+        self.sampler, self.valid_sampler = self._split_sampler(
+            self.validation_split
+        )
 
         self.init_kwargs = {
             "dataset": dataset,
@@ -46,9 +50,10 @@ class BaseDataLoader(DataLoader):
 
         if isinstance(split, int):
             assert split > 0
-            assert (
-                split < self.n_samples
-            ), "validation set size is configured to be larger than entire dataset."
+            assert split < self.n_samples, (
+                "validation set size is configured to be larger than"
+                " entire dataset."
+            )
             len_valid = split
         else:
             len_valid = int(self.n_samples * split)
@@ -69,4 +74,6 @@ class BaseDataLoader(DataLoader):
         if self.valid_sampler is None:
             return None
         else:
-            return DataLoader(sampler=self.valid_sampler, **self.init_kwargs)
+            return DataLoader(
+                sampler=self.valid_sampler, **self.init_kwargs
+            )

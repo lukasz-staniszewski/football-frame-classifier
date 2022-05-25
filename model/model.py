@@ -20,8 +20,9 @@ class FramesClassifier(BaseModel):
         self.drop2 = nn.Dropout(0.5)
         self.conv4 = nn.Conv2d(in_channels=50, out_channels=60, kernel_size=(3,3), stride=(3,3))
         self.bn4 = nn.BatchNorm2d(60)
-        self.fc1 = nn.Linear(480, 250)
+        self.fc1 = nn.Linear(1920, 500)
         self.drop4 = nn.Dropout(0.5)
+        self.fc2 = nn.Linear(500,250)
         self.fc3 = nn.Linear(250, 50)
         self.drop5 = nn.Dropout(0.5)
         self.fc4 = nn.Linear(50, num_classess)
@@ -39,9 +40,10 @@ class FramesClassifier(BaseModel):
         x=self.pool2(x)
 
         x = torch.flatten(x, 1)  # flatten all dimensions except batch
-        x = F.relu(self.fc1(x))
+        x = torch.tanh(self.fc1(x))
         x = self.drop4(x)
-        x = F.relu(self.fc3(x))
+        x = torch.tanh(self.fc2(x))
+        x = torch.tanh(self.fc3(x))
         x = self.drop5(x)
         x = self.fc4(x)
 
