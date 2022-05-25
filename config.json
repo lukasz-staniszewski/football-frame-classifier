@@ -2,18 +2,19 @@
     "name": "FootballFramesClassifier",
     "n_gpu": 1,
     "arch": {
-        "type": "MnistModel",
+        "type": "FramesClassifier",
         "args": {
             "num_classess": 7
         }
     },
     "data_loader": {
-        "type": "MnistDataLoader",
+        "type": "FramesDataLoader",
         "args": {
-            "data_dir": "data/",
+            "images_folder": "data/raw/train",
             "batch_size": 128,
+            "csv_path": "data/df_train_framefilter.csv",
             "shuffle": true,
-            "validation_split": 0.1,
+            "validation_split": 0.2,
             "num_workers": 2
         }
     },
@@ -25,7 +26,7 @@
             "amsgrad": true
         }
     },
-    "loss": "nll_loss",
+    "loss": "cross_entropy_loss",
     "metrics": [
         "accuracy",
         "top_k_acc"

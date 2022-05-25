@@ -1,28 +1,37 @@
 from torchvision import datasets, transforms
 from base import BaseDataLoader
+from data_loader import FramesDataset
 
 
-class MnistDataLoader(BaseDataLoader):
-    """
-    MNIST data loading demo using BaseDataLoader
-    """
-
+class FramesDataLoader(BaseDataLoader):
     def __init__(
         self,
-        data_dir,
+        images_folder,
         batch_size,
+        csv_path,
         shuffle=True,
         validation_split=0.0,
         num_workers=1,
-        training=True,
     ):
         trsfm = transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
+            [
+                transforms.ToPILImage(),
+                transforms.ToTensor(),
+                transforms.Resize(size=(360, 640)),
+                # transforms.Normalize((0.1307,), (0.3081,))
+            ]
         )
-        self.data_dir = data_dir
-        self.dataset = datasets.MNIST(
-            self.data_dir, train=training, download=True, transform=trsfm
+        self.images_folder = images_folder
+        self.dataset = FramesDataset(
+            csv_path=csv_path,
+            images_folder=self.images_folder,
+            transform=trsfm,
         )
+
         super().__init__(
-            self.dataset, batch_size, shuffle, validation_split, num_workers
+            self.dataset,
+            batch_size,
+            shuffle,
+            validation_split,
+            num_workers,
         )
