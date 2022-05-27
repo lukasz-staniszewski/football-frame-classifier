@@ -4,7 +4,7 @@ import json
 
 def _get_class_cm(output, target):
     with open("config.json", "r") as f:
-        N_CLASSES = json.load(f)['n_classes']
+        N_CLASSES = json.load(f)['arch']['args']['num_classes']
     TPR = [0 for _ in range(N_CLASSES)]
     FPR = [0 for _ in range(N_CLASSES)]
     TNR = [0 for _ in range(N_CLASSES)]
