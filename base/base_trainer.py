@@ -9,9 +9,13 @@ class BaseTrainer:
     Base class for all trainers
     """
 
-    def __init__(self, model, criterion, metric_ftns, optimizer, config):
+    def __init__(
+        self, model, criterion, metric_ftns, optimizer, config
+    ):
         self.config = config
-        self.logger = config.get_logger("trainer", config["trainer"]["verbosity"])
+        self.logger = config.get_logger(
+            "trainer", config["trainer"]["verbosity"]
+        )
 
         self.model = model
         self.criterion = criterion
@@ -71,7 +75,9 @@ class BaseTrainer:
 
             # print logged informations to the screen
             for key, value in log.items():
-                self.logger.info("    {:15s}: {}".format(str(key), value))
+                self.logger.info(
+                    "    {:15s}: {}".format(str(key), value)
+                )
 
             # evaluate model performance according to configured metric, save best checkpoint as model_best
             best = False
@@ -79,16 +85,17 @@ class BaseTrainer:
                 try:
                     # check whether model performance improved or not, according to specified metric(mnt_metric)
                     improved = (
-                        self.mnt_mode == "min" and log[self.mnt_metric] <= self.mnt_best
+                        self.mnt_mode == "min"
+                        and log[self.mnt_metric] <= self.mnt_best
                     ) or (
-                        self.mnt_mode == "max" and log[self.mnt_metric] >= self.mnt_best
+                        self.mnt_mode == "max"
+                        and log[self.mnt_metric] >= self.mnt_best
                     )
                 except KeyError:
                     self.logger.warning(
                         "Warning: Metric '{}' is not found. "
-                        "Model performance monitoring is disabled.".format(
-                            self.mnt_metric
-                        )
+                        "Model performance monitoring is disabled."
+                        .format(self.mnt_metric)
                     )
                     self.mnt_mode = "off"
                     improved = False
@@ -102,8 +109,10 @@ class BaseTrainer:
 
                 if not_improved_count > self.early_stop:
                     self.logger.info(
-                        "Validation performance didn't improve for {} epochs. "
-                        "Training stops.".format(self.early_stop)
+                        "Validation performance didn't improve for {}"
+                        " epochs. Training stops.".format(
+                            self.early_stop
+                        )
                     )
                     break
 
@@ -127,7 +136,9 @@ class BaseTrainer:
             "monitor_best": self.mnt_best,
             "config": self.config,
         }
-        filename = str(self.checkpoint_dir / "checkpoint-epoch{}.pth".format(epoch))
+        filename = str(
+            self.checkpoint_dir / "checkpoint-epoch{}.pth".format(epoch)
+        )
         torch.save(state, filename)
         self.logger.info("Saving checkpoint: {} ...".format(filename))
         if save_best:
@@ -142,7 +153,9 @@ class BaseTrainer:
         :param resume_path: Checkpoint path to be resumed
         """
         resume_path = str(resume_path)
-        self.logger.info("Loading checkpoint: {} ...".format(resume_path))
+        self.logger.info(
+            "Loading checkpoint: {} ...".format(resume_path)
+        )
         checkpoint = torch.load(resume_path)
         self.start_epoch = checkpoint["epoch"] + 1
         self.mnt_best = checkpoint["monitor_best"]
@@ -150,8 +163,9 @@ class BaseTrainer:
         # load architecture params from checkpoint.
         if checkpoint["config"]["arch"] != self.config["arch"]:
             self.logger.warning(
-                "Warning: Architecture configuration given in config file is different from that of "
-                "checkpoint. This may yield an exception while state_dict is being loaded."
+                "Warning: Architecture configuration given in config"
+                " file is different from that of checkpoint. This may"
+                " yield an exception while state_dict is being loaded."
             )
         self.model.load_state_dict(checkpoint["state_dict"])
 
@@ -161,12 +175,15 @@ class BaseTrainer:
             != self.config["optimizer"]["type"]
         ):
             self.logger.warning(
-                "Warning: Optimizer type given in config file is different from that of checkpoint. "
-                "Optimizer parameters not being resumed."
+                "Warning: Optimizer type given in config file is"
+                " different from that of checkpoint. Optimizer"
+                " parameters not being resumed."
             )
         else:
             self.optimizer.load_state_dict(checkpoint["optimizer"])
 
         self.logger.info(
-            "Checkpoint loaded. Resume training from epoch {}".format(self.start_epoch)
+            "Checkpoint loaded. Resume training from epoch {}".format(
+                self.start_epoch
+            )
         )

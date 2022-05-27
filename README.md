@@ -1,9 +1,10 @@
-<h1 align="center">RespoVision Recruitment Task</h1>
-<h3 align="center"><a href="https://github.com/lukasz-staniszewski">Łukasz Staniszewski</a></h3>
-<div align="center">
-<img src="https://respo.vision/wp-content/uploads/2021/01/ReSpo_Vision_id_logo_RGB_dark.jpg" alt="banner">
-</div>
+<h1 align="center">Footbal Frames Classifier</h1>
+<h2 align="center">Łukasz Staniszewski</h2>
 
+<br>
+<div align="center">
+<img src="https://user-images.githubusercontent.com/59453698/170739138-44ee7ba7-e7b2-456b-90bb-e4d5a7c741d6.png" alt="banner">
+</div>
 
 <h2 align="center"> I. Task description </h2>
 Aim of the task is to create a model, which will differentiate between different types of views encountered during a football match. We would like to be able to select only those frames, which contain valuable information to be processed by our data extraction system. The task is stated as a multiclass classification problem.

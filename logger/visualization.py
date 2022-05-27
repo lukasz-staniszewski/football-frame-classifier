@@ -14,7 +14,9 @@ class TensorboardWriter:
             succeeded = False
             for module in ["torch.utils.tensorboard", "tensorboardX"]:
                 try:
-                    self.writer = importlib.import_module(module).SummaryWriter(log_dir)
+                    self.writer = importlib.import_module(
+                        module
+                    ).SummaryWriter(log_dir)
                     succeeded = True
                     break
                 except ImportError:
@@ -23,9 +25,12 @@ class TensorboardWriter:
 
             if not succeeded:
                 message = (
-                    "Warning: visualization (Tensorboard) is configured to use, but currently not installed on "
-                    "this machine. Please install TensorboardX with 'pip install tensorboardx', upgrade PyTorch to "
-                    "version >= 1.1 to use 'torch.utils.tensorboard' or turn off the option in the 'config.json' file."
+                    "Warning: visualization (Tensorboard) is configured"
+                    " to use, but currently not installed on this"
+                    " machine. Please install TensorboardX with 'pip"
+                    " install tensorboardx', upgrade PyTorch to version"
+                    " >= 1.1 to use 'torch.utils.tensorboard' or turn"
+                    " off the option in the 'config.json' file."
                 )
                 logger.warning(message)
 
@@ -53,7 +58,9 @@ class TensorboardWriter:
             self.timer = datetime.now()
         else:
             duration = datetime.now() - self.timer
-            self.add_scalar("steps_per_sec", 1 / duration.total_seconds())
+            self.add_scalar(
+                "steps_per_sec", 1 / duration.total_seconds()
+            )
             self.timer = datetime.now()
 
     def __getattr__(self, name):

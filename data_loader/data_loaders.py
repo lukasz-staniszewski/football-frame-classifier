@@ -65,12 +65,18 @@ class FramesDataLoader(BaseDataLoader):
                 class2index=self.class2index,
                 transform=trsfm_aug,
             )
-            self.dataset = ConcatDataset([self.dataset_orig, self.dataset_aug])
+            self.dataset = ConcatDataset(
+                [self.dataset_orig, self.dataset_aug]
+            )
         else:
             self.dataset = self.dataset_orig
 
         super().__init__(
-            self.dataset, batch_size, shuffle, validation_split, num_workers,
+            self.dataset,
+            batch_size,
+            shuffle,
+            validation_split,
+            num_workers,
         )
 
 
@@ -104,8 +110,14 @@ class TestDataLoader(BaseDataLoader):
             6: "wide_view",
         }
         self.images_folder = images_folder
-        self.dataset = TestDataset(images_folder=self.images_folder, transform=trsfm)
+        self.dataset = TestDataset(
+            images_folder=self.images_folder, transform=trsfm
+        )
 
         super().__init__(
-            self.dataset, batch_size, shuffle, validation_split, num_workers,
+            self.dataset,
+            batch_size,
+            shuffle,
+            validation_split,
+            num_workers,
         )
