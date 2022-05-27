@@ -51,25 +51,42 @@ def main(args):
     else:
         print("~~Resizinig images:~~")
         resize_imgs(arg.input_dir, arg.output_dir)
-    if arg.input_csv is None or arg.output_csv is None or arg.size_csv is None:
-        print("Skipping ")
+    if (
+        arg.input_csv is None
+        or arg.output_csv is None
+        or arg.size_csv is None
+    ):
+        print("Skipping creating balanced csv!")
     print("~~Creating more balanced csv~~")
     create_csv_balanced(
-        csv_in=arg.input_csv, csv_out=arg.output_csv, csv_size=arg.size_csv
+        csv_in=arg.input_csv,
+        csv_out=arg.output_csv,
+        csv_size=arg.size_csv,
     )
 
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser(description="Preprocessor")
     args.add_argument(
-        "-i", "--input_dir", default=None, type=str, help="Dir of images",
+        "-i",
+        "--input_dir",
+        default=None,
+        type=str,
+        help="Dir of images",
     )
-
     args.add_argument(
-        "-o", "--output_dir", default=None, type=str, help="path to output dir",
+        "-o",
+        "--output_dir",
+        default=None,
+        type=str,
+        help="path to output dir",
     )
     args.add_argument(
-        "-i_csv", "--input_csv", default=None, type=str, help="path to input csv"
+        "-i_csv",
+        "--input_csv",
+        default=None,
+        type=str,
+        help="path to input csv",
     )
     args.add_argument(
         "-o_csv",

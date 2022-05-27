@@ -20,7 +20,9 @@ class TestDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, index):
         filename = self.files_names[index]
-        image = torchvision.io.read_image(os.path.join(self.images_folder, filename))
+        image = torchvision.io.read_image(
+            os.path.join(self.images_folder, filename)
+        )
         if self.transform is not None:
             image = self.transform(image)
         return image, filename

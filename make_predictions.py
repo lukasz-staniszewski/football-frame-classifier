@@ -60,7 +60,9 @@ def perform_predicts():
     predictions_df = pd.DataFrame(
         {
             "filename": paths,
-            "category": map(lambda x: loader.index2class[x.item()], preds.int()),
+            "category": map(
+                lambda x: loader.index2class[x.item()], preds.int()
+            ),
             "probability": probs,
         }
     )
