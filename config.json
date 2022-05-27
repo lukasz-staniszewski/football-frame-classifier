@@ -55,7 +55,7 @@
         "early_stop": 10,
         "tensorboard": false
     },
-    "class_weights_bal":[
+    "class_weights_normal":[
         1.0,
         1.0,
         1.0,

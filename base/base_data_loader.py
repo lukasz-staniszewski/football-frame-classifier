@@ -26,9 +26,7 @@ class BaseDataLoader(DataLoader):
         self.n_samples = len(dataset)
 
         set_seed(0)
-        self.sampler, self.valid_sampler = self._split_sampler(
-            self.validation_split
-        )
+        self.sampler, self.valid_sampler = self._split_sampler(self.validation_split)
 
         self.init_kwargs = {
             "dataset": dataset,
@@ -51,8 +49,7 @@ class BaseDataLoader(DataLoader):
         if isinstance(split, int):
             assert split > 0
             assert split < self.n_samples, (
-                "validation set size is configured to be larger than"
-                " entire dataset."
+                "validation set size is configured to be larger than" " entire dataset."
             )
             len_valid = split
         else:
@@ -74,6 +71,4 @@ class BaseDataLoader(DataLoader):
         if self.valid_sampler is None:
             return None
         else:
-            return DataLoader(
-                sampler=self.valid_sampler, **self.init_kwargs
-            )
+            return DataLoader(sampler=self.valid_sampler, **self.init_kwargs)

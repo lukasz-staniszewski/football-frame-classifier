@@ -15,7 +15,7 @@ class FramesDataLoader(BaseDataLoader):
         shuffle=True,
         validation_split=0.0,
         num_workers=1,
-        is_with_aug=False
+        is_with_aug=False,
     ):
         trsfm = transforms.Compose(
             [
@@ -59,32 +59,29 @@ class FramesDataLoader(BaseDataLoader):
             transform=trsfm,
         )
         if is_with_aug:
-          self.dataset_aug = FramesDataset(
-              csv_path = csv_path_tf,
-              images_folder=self.images_folder,
-              class2index=self.class2index,
-              transform=trsfm_aug,
-          )
-          self.dataset = ConcatDataset([self.dataset_orig, self.dataset_aug])
+            self.dataset_aug = FramesDataset(
+                csv_path=csv_path_tf,
+                images_folder=self.images_folder,
+                class2index=self.class2index,
+                transform=trsfm_aug,
+            )
+            self.dataset = ConcatDataset([self.dataset_orig, self.dataset_aug])
         else:
-          self.dataset = self.dataset_orig
+            self.dataset = self.dataset_orig
 
         super().__init__(
-            self.dataset,
-            batch_size,
-            shuffle,
-            validation_split,
-            num_workers,
+            self.dataset, batch_size, shuffle, validation_split, num_workers,
         )
 
+
 class TestDataLoader(BaseDataLoader):
-  def __init__(
+    def __init__(
         self,
         images_folder,
         batch_size,
         shuffle=False,
         validation_split=0.0,
-        num_workers=1
+        num_workers=1,
     ):
         trsfm = transforms.Compose(
             [
@@ -98,24 +95,17 @@ class TestDataLoader(BaseDataLoader):
             ]
         )
         self.index2class = {
-            0:"side_view",
-            1:"closeup",
-            2:"non_match",
-            3:"front_view",
-            4:"side_gate_view",
-            5:"aerial_view",
-            6:"wide_view"
+            0: "side_view",
+            1: "closeup",
+            2: "non_match",
+            3: "front_view",
+            4: "side_gate_view",
+            5: "aerial_view",
+            6: "wide_view",
         }
         self.images_folder = images_folder
-        self.dataset = TestDataset(
-            images_folder=self.images_folder,
-            transform=trsfm
-        )
-        
+        self.dataset = TestDataset(images_folder=self.images_folder, transform=trsfm)
+
         super().__init__(
-            self.dataset,
-            batch_size,
-            shuffle,
-            validation_split,
-            num_workers,
+            self.dataset, batch_size, shuffle, validation_split, num_workers,
         )

@@ -26,15 +26,15 @@ class ResNetFCClassifier(BaseModel):
         res_fc_out = self.model.fc.out_features
 
         self.fc_out = nn.Sequential(
-          nn.Linear(in_features=res_fc_out, out_features=500),
-          nn.ReLU(),
-          nn.Dropout(0.7),
-          nn.Linear(in_features=500, out_features=50),
-          nn.ReLU(),
-          nn.Dropout(0.6),
-          nn.Linear(in_features=50, out_features=num_classes)
+            nn.Linear(in_features=res_fc_out, out_features=500),
+            nn.ReLU(),
+            nn.Dropout(0.7),
+            nn.Linear(in_features=500, out_features=50),
+            nn.ReLU(),
+            nn.Dropout(0.6),
+            nn.Linear(in_features=50, out_features=num_classes),
         )
-        
+
     def forward(self, x):
         x = self.model(x)
         x = self.fc_out(x)

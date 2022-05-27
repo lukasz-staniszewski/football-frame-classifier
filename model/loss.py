@@ -10,5 +10,5 @@ def nll_loss(output, target, device):
 
 def cross_entropy_loss(output, target, device):
     with open("config.json", "r") as f:
-      weights = torch.FloatTensor(json.load(f)['class_weights']).to(device)
+        weights = torch.FloatTensor(json.load(f)["class_weights"]).to(device)
     return nn.CrossEntropyLoss(weight=weights)(output, target)

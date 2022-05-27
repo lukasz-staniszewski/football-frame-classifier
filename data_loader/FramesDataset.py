@@ -17,9 +17,7 @@ class FramesDataset(torch.utils.data.Dataset):
     def __getitem__(self, index):
         filename = self.df["basename"][index]
         label = self.class2index[self.df["category"][index]]
-        image = torchvision.io.read_image(
-            os.path.join(self.images_folder, filename)
-        )
+        image = torchvision.io.read_image(os.path.join(self.images_folder, filename))
         if self.transform is not None:
             image = self.transform(image)
         return image, label
