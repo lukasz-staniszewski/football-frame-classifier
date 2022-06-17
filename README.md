@@ -3,7 +3,7 @@
 
 <br>
 <div align="center">
-<img src="https://user-images.githubusercontent.com/59453698/170739138-44ee7ba7-e7b2-456b-90bb-e4d5a7c741d6.png" alt="banner">
+<img src="https://user-images.githubusercontent.com/59453698/170739138-44ee7ba7-e7b2-456b-90bb-e4d5a7c741d6.png" alt="banner" width=700>
 </div>
 
 <h2 align="center"> I. Task description </h2>
@@ -298,6 +298,23 @@ During this project I found out that to achieve good results in views classifica
       ├── util.py
       └── ...
   ```
+
+<h2 align="center"> IX. Docker service </h2>
+
+You can also run model for production as docker service. You can run do it using following commands:
+
+```python
+$ docker build . -t service:latest
+$ docker run -p 8501:8501 service:latest
+```
+
+
+<div align="center">
+<img src="https://user-images.githubusercontent.com/59453698/174286929-29693369-9e8e-4172-ac52-4e983e2a6aa0.png" alt="banner" width=700>
+
+<div><i>Service 'prediction' page.</i></div>
+</div>
+
 
 
 ## Author
